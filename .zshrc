@@ -99,5 +99,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias git-dotfiles="/usr/bin/env git --git-dir ${HOME}/Developer/repositories/dotfiles.git --work-tree=${HOME}"
+alias vim=nvim
 
 export CG_PROJECT=${HOME}/Dropbox/datasets/valve-plane-detection/
