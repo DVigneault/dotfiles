@@ -149,20 +149,23 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
 
-    -- Decrease volume
-    , ((modm, xK_F5 ), lowerVolume 3 >> return())
+    -- Use xev to get the masks for the volume and brightness function keys, as here:
+    -- https://unix.stackexchange.com/a/400608
 
-    -- Increase volume
-    , ((modm, xK_F6 ), raiseVolume 3 >> return())
+    -- Decrease volume: XF86AudioLowerVolume
+    , ((0, 0x1008ff11), lowerVolume 3 >> return())
 
-    -- Toggle mute
-    , ((modm, xK_F3 ), toggleMute >> return())
+    -- Increase volume: XF86AudioRaiseVolume
+    , ((0, 0x1008ff13), raiseVolume 3 >> return())
 
-    -- Decrease brightness
-    , ((modm, xK_F8 ), Bright.decrease)
+    -- Toggle mute: XF86AudioMute
+    , ((0, 0x1008ff12), toggleMute >> return())
 
-    -- Increase brightness
-    , ((modm, xK_F9 ), Bright.increase)
+    -- Decrease brightness: XF86MonBrightnessDown
+    , ((0, 0x1008ff03), spawn "xbacklight -5")
+
+    -- Increase brightness: XF86MonBrightnessUp
+    , ((0, 0x1008ff02), spawn "xbacklight +5")
     ]
     ++
 
