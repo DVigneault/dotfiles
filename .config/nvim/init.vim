@@ -19,7 +19,13 @@
 "   :q!
 "   :q!
 call plug#begin()
+
+"https://github.com/morhetz/gruvbox
 Plug 'morhetz/gruvbox'
+
 call plug#end()
 
 autocmd vimenter * colorscheme gruvbox " Activate Gruvbox
+
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_dark = 'hard'
