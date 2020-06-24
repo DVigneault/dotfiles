@@ -80,6 +80,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
+    -- screenshot (full)
+    -- relies on ImageMagick
+    , ((modm,               xK_x     ), spawn "import -window root ${HOME}/Pictures/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png")
+
+    -- screenshot (partial)
+    -- relies on ImageMagick
+    , ((modm .|. shiftMask, xK_x     ), spawn "import ${HOME}/Pictures/screenshot-$(date +%Y-%m-%d-%H-%M-%S).png")
+
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
 
@@ -166,6 +174,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Increase brightness: XF86MonBrightnessUp
     , ((0, 0x1008ff02), spawn "xbacklight +5")
+
+    -- Play/Pause: XF86AudioPlay
+    , ((0, 0x1008ff14), spawn "notify-send \"Play/Pause\"")
     ]
     ++
 
