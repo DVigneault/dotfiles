@@ -152,7 +152,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "notify-send \"Restarting XMonad...\" && killall polybar && xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q     ), spawn "notify-send \"Restarting XMonad...\" && killall -q polybar && xmonad --recompile; xmonad --restart")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
@@ -320,7 +320,8 @@ myStartupHook = do
 ---- main = xmonad defaults
 main = do
 	xmproc <- spawnPipe "xmobar -x 0 /home/davis/.config/xmobar/xmobar.config"
-	pbproc <- spawnPipe "polybar -c=/home/davis/.config/polybar/config example"
+	pbproc0 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config pulse"
+--	pbproc1 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config desk"
 	xmonad $ docks def {
           terminal           = myTerminal
         , focusFollowsMouse  = myFocusFollowsMouse

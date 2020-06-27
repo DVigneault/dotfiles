@@ -17,134 +17,102 @@
 ;==========================================================
 
 [colors]
-background = #77222222
-foreground = #dfdfdf
-secondary = #e60053
+; https://github.com/morhetz/gruvbox
+background = #282828
+foreground = #ebdbb2
+red = #cc241d
+green = #98971a
+yellow = #d79921
+blue = #458588
+purple = #b16286
+aqua = #689d6a
+orange = #d65d0e
 
-[bar/example]
-;monitor = ${env:MONITOR:HDMI-1}
+[bar/base]
+;monitor = ${env:MONITOR:HDMI1}
 width = 100%
 height = 40
 radius = 6.0
 fixed-center = true
-;bottom = true
-;separator = |
-
 background = ${colors.background}
 foreground = ${colors.foreground}
-
 line-size = 3
 line-color = ${colors.foreground}
-
 border-size = 4
-;border-color = #00000000
-
 padding-left = 2
 padding-right = 2
-
 module-margin-left = 1
 module-margin-right = 1
-
 font-0 = UbuntuMono:pixelsize=16:antialias=true;0
 font-1 = FontAwesome:size=16;1
-
-modules-left = filesystem memory cpu
-modules-center = date
-modules-right = xbacklight pulseaudio wlan eth battery powermenu
-
-;tray-position = none
-tray-padding = 2
-;tray-background = #0063ff
-
-;wm-restack = bspwm
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
+enable-ipc = true
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:30:...%
+[bar/desk]
+inherit = bar/base
+bottom = true
+tray-position = right
+modules-left = workspaces-xmonad
 
-;[module/xkeyboard]
-;type = internal/xkeyboard
-;blacklist-0 = num lock
-;
-;format-prefix = " "
-;format-prefix-foreground = ${colors.foreground}
-;format-prefix-underline = ${colors.secondary}
-;
-;label-layout = %layout%
-;label-layout-underline = ${colors.secondary}
-;
-;label-indicator-padding = 2
-;label-indicator-margin = 1
-;label-indicator-background = ${colors.secondary}
-;label-indicator-underline = ${colors.secondary}
+[bar/pulse]
+inherit = bar/base
+modules-left = filesystem memory cpu
+modules-center = date
+modules-right = xbacklight pulseaudio wlan battery powermenu
 
 [module/filesystem]
 type = internal/fs
 interval = 25
-
 mount-0 = /
+format-mounted-prefix = " "
+format-mounted-prefix-foreground = ${colors.orange}
+label-mounted = "%used% / %total% (%percentage_used%%)"
 
-label-mounted =  %used% / %total% (%percentage_used%%)
-
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
+;[module/mpd]
+;type = internal/mpd
+;format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+;
+;icon-prev = 
+;icon-stop = 
+;icon-play = 
+;icon-pause = 
+;icon-next = 
+;
+;label-song-maxlen = 25
+;label-song-ellipsis = true
 
 [module/xbacklight]
 type = internal/xbacklight
 format-prefix = " "
+format-prefix-foreground = ${colors.orange}
 format = <label>
 label = %percentage%%
-
 format-underline = ${colors.foreground}
-
-;[module/backlight-acpi]
-;inherit = module/xbacklight
-;type = internal/backlight
-;card = intel_backlight
 
 [module/cpu]
 type = internal/cpu
 interval = 2
 format-prefix = " "
+format-prefix-foreground = ${colors.orange}
 label = %percentage-cores:3%
 
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = " "
+format-prefix-foreground = ${colors.orange}
 label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
 interface = wlp3s0
 interval = 3.0
-
-format-connected =  <label-connected> (<ramp-signal>)
-label-connected = %essid%
-
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.orange}
+format-connected =  <label-connected> (<ramp-signal>)
 format-disconnected = 
+label-connected = %essid%
 
 ramp-signal-0 = 
 ramp-signal-1 = 
@@ -152,16 +120,17 @@ ramp-signal-3 = 
 ramp-signal-4 = 
 ramp-signal-5 = 
 
-;[module/workspaces-xmonad]
-;type = custom/script
-;exec = tail -F /tmp/.xmonad-workspace-log
-;exec-if = [ -p /tmp/.xmonad-workspace-log ]
-;tail = true
+[module/workspaces-xmonad]
+type = custom/script
+exec = tail -F /tmp/.xmonad-workspace-log
+exec-if = [ -p /tmp/.xmonad-workspace-log ]
+tail = true
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 1
 
+format-prefix-foreground = ${colors.orange}
 format-prefix = " "
 date = "%A %Y-%m-%d"
 time = %H:%M:%S
@@ -171,32 +140,19 @@ label = %date% %time%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-prefix = " "
+;format-prefix-foreground = ${colors.green}
+label-volume = %percentage%%
 format-volume = <label-volume>
-label-volume =  %percentage%%
+format-volume-prefix = " "
+format-volume-prefix-foreground = ${colors.orange}
 label-volume-foreground = ${root.foreground}
 format-volume-underline = ${colors.foreground}
 format-muted-underline = ${colors.foreground}
 
-label-muted = " 0%"
+label-muted = 0%
+format-muted-prefix = " "
+format-muted-prefix-foreground = ${colors.orange}
 label-muted-foreground = #666
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground}
 
 [module/battery]
 ; Settings
@@ -214,6 +170,7 @@ icon-100 = ""
 icon-charged = " "
 
 ; Charging
+animation-charging-foreground = ${colors.orange}
 format-charging = <animation-charging> <label-charging>
 animation-charging-0 = ${self.icon-0}
 animation-charging-1 = ${self.icon-25}
@@ -223,6 +180,7 @@ animation-charging-4 = ${self.icon-100}
 animation-charging-framerate = 750
 
 ; Discharging
+animation-discharging-foreground = ${colors.orange}
 format-discharging = <animation-discharging> <label-discharging>
 animation-discharging-0 = ${self.icon-100}
 animation-discharging-1 = ${self.icon-75}
@@ -233,34 +191,14 @@ animation-discharging-framerate = 750
 
 ; Full
 format-full-prefix = ${self.icon-charged}
+format-full-prefix-foreground = ${self.orange}
 
-ramp-capacity-0 = ${self.icon-0}
-ramp-capacity-1 = ${self.icon-25}
-ramp-capacity-2 = ${self.icon-50}
-ramp-capacity-3 = ${self.icon-75}
-ramp-capacity-4 = ${self.icon-100}
-ramp-capacity-foreground = ${colors.foreground}
-
-;[module/temperature]
-;type = internal/temperature
-;thermal-zone = 0
-;warn-temperature = 60
-;
-;format = <ramp> <label>
-;format-underline = #f50a4d
-;format-warn = <ramp> <label-warn>
-;format-warn-underline = ${self.format-underline}
-;
-;label = %temperature-c%
-;label-warn = %temperature-c%
-;label-warn-foreground = ${colors.secondary}
-;
-;ramp-0 = 
-;ramp-1 = 
-;ramp-3 = 
-;ramp-4 = 
-;ramp-5 = 
-;ramp-foreground = ${colors.foreground}
+;ramp-capacity-0 = ${self.icon-0}
+;ramp-capacity-1 = ${self.icon-25}
+;ramp-capacity-2 = ${self.icon-50}
+;ramp-capacity-3 = ${self.icon-75}
+;ramp-capacity-4 = ${self.icon-100}
+;ramp-capacity-foreground = ${colors.foreground}
 
 [module/powermenu]
 type = custom/menu
@@ -270,9 +208,9 @@ expand-right = true
 format-spacing = 1
 
 label-open = 
-label-open-foreground = ${colors.secondary}
+label-open-foreground = ${colors.red}
 label-close = ""
-label-close-foreground = ${colors.secondary}
+label-close-foreground = ${colors.red}
 label-separator = |
 label-separator-foreground = ${colors.foreground}
 
