@@ -41,7 +41,7 @@ myClickJustFocuses = False
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 5
+myBorderWidth   = 3
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -63,8 +63,8 @@ myWorkspaces    = ["1:>_","2:<>","3:__","4:__","5:__","6:__","7:__","8:~~","9:$$
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myNormalBorderColor  = "#282828"
+myFocusedBorderColor = "#b16286"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -74,11 +74,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
-    -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run -i -p 'dmenu>' -nf orange")
+    -- launch rofi application launcher
+    , ((modm,               xK_p     ), spawn "rofi -show run")
 
-    -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+    -- launch rofi ssh launcher
+    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show ssh")
 
     -- screenshot (full)
     -- relies on ImageMagick

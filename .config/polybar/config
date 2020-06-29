@@ -26,6 +26,7 @@ yellow = #d79921
 blue = #458588
 purple = #b16286
 aqua = #689d6a
+gray = #928374
 orange = #d65d0e
 
 [bar/base]
@@ -66,7 +67,7 @@ type = internal/fs
 interval = 25
 mount-0 = /
 format-mounted-prefix = " "
-format-mounted-prefix-foreground = ${colors.orange}
+format-mounted-prefix-foreground = ${colors.purple}
 label-mounted = "%used% / %total% (%percentage_used%%)"
 
 ;[module/mpd]
@@ -85,7 +86,7 @@ label-mounted = "%used% / %total% (%percentage_used%%)"
 [module/xbacklight]
 type = internal/xbacklight
 format-prefix = " "
-format-prefix-foreground = ${colors.orange}
+format-prefix-foreground = ${colors.purple}
 format = <label>
 label = %percentage%%
 format-underline = ${colors.foreground}
@@ -94,14 +95,14 @@ format-underline = ${colors.foreground}
 type = internal/cpu
 interval = 2
 format-prefix = " "
-format-prefix-foreground = ${colors.orange}
+format-prefix-foreground = ${colors.purple}
 label = %percentage-cores:3%
 
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = " "
-format-prefix-foreground = ${colors.orange}
+format-prefix-foreground = ${colors.purple}
 label = %percentage_used%%
 
 [module/wlan]
@@ -109,7 +110,7 @@ type = internal/network
 interface = wlp3s0
 interval = 3.0
 format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.orange}
+format-connected-prefix-foreground = ${colors.purple}
 format-connected =  <label-connected> (<ramp-signal>)
 format-disconnected = 
 label-connected = %essid%
@@ -130,7 +131,7 @@ tail = true
 type = internal/date
 interval = 1
 
-format-prefix-foreground = ${colors.orange}
+format-prefix-foreground = ${colors.purple}
 format-prefix = " "
 date = "%A %Y-%m-%d"
 time = %H:%M:%S
@@ -144,14 +145,14 @@ type = internal/pulseaudio
 label-volume = %percentage%%
 format-volume = <label-volume>
 format-volume-prefix = " "
-format-volume-prefix-foreground = ${colors.orange}
+format-volume-prefix-foreground = ${colors.purple}
 label-volume-foreground = ${root.foreground}
 format-volume-underline = ${colors.foreground}
 format-muted-underline = ${colors.foreground}
 
 label-muted = 0%
 format-muted-prefix = " "
-format-muted-prefix-foreground = ${colors.orange}
+format-muted-prefix-foreground = ${colors.purple}
 label-muted-foreground = #666
 
 [module/battery]
@@ -170,7 +171,7 @@ icon-100 = ""
 icon-charged = " "
 
 ; Charging
-animation-charging-foreground = ${colors.orange}
+animation-charging-foreground = ${colors.purple}
 format-charging = <animation-charging> <label-charging>
 animation-charging-0 = ${self.icon-0}
 animation-charging-1 = ${self.icon-25}
@@ -180,7 +181,7 @@ animation-charging-4 = ${self.icon-100}
 animation-charging-framerate = 750
 
 ; Discharging
-animation-discharging-foreground = ${colors.orange}
+animation-discharging-foreground = ${colors.purple}
 format-discharging = <animation-discharging> <label-discharging>
 animation-discharging-0 = ${self.icon-100}
 animation-discharging-1 = ${self.icon-75}
@@ -191,7 +192,7 @@ animation-discharging-framerate = 750
 
 ; Full
 format-full-prefix = ${self.icon-charged}
-format-full-prefix-foreground = ${self.orange}
+format-full-prefix-foreground = ${colors.purple}
 
 ;ramp-capacity-0 = ${self.icon-0}
 ;ramp-capacity-1 = ${self.icon-25}
