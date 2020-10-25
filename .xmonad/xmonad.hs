@@ -28,8 +28,8 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "gnome-terminal"
-myTextEditor    = "vim"
+myTerminal :: String
+myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -41,7 +41,7 @@ myClickJustFocuses = False
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 3
+myBorderWidth   = 10
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -59,7 +59,7 @@ myModMask       = mod1Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1:>_","2:<>","3:__","4:__","5:__","6:__","7:__","8:~~","9:$$"]
+--myWorkspaces    = ["1:>_","2:<>","3:__","4:__","5:__","6:__","7:__","8:~~","9:$$"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -75,10 +75,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch rofi application launcher
-    , ((modm,               xK_p     ), spawn "rofi -show run")
+    , ((modm,               xK_p     ), spawn "rofi -show drun")
 
     -- launch rofi ssh launcher
-    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show ssh")
+    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show dmenu_run")
 
     -- screenshot (full)
     -- relies on ImageMagick
@@ -101,7 +101,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_n     ), refresh)
 
     -- Resize viewed windows to the correct size
-    , ((modm .|. shiftMask, xK_n     ), spawn "nautilus -w")
+    , ((modm .|. shiftMask, xK_n     ), spawn "alacritty -e vifm")
 
     -- Move focus to the next window
     , ((modm,               xK_Tab   ), windows W.focusDown)
@@ -264,14 +264,14 @@ myLayout = avoidStruts (spacing myGap $ gaps [(U, myGap), (L, myGap), (D, myGap)
 --    , resource  =? "desktop_window" --> doIgnore
 --    , resource  =? "kdesktop"       --> doIgnore ]
 
-myManageHook :: Query (Data.Monoid.Endo WindowSet)
-myManageHook = composeAll
-     [ className =? "Firefox"   --> doShift ( myWorkspaces !! 1)
-     , className =? "Signal"    --> doShift ( myWorkspaces !! 7)
-     , className =? "Bitwarden" --> doShift ( myWorkspaces !! 8)
-     , className =? "Enpass"    --> doShift ( myWorkspaces !! 8)
-     , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-     ]
+--myManageHook :: Query (Data.Monoid.Endo WindowSet)
+--myManageHook = composeAll
+--     [ className =? "Firefox"   --> doShift ( myWorkspaces !! 1)
+--     , className =? "Signal"    --> doShift ( myWorkspaces !! 7)
+--     , className =? "Bitwarden" --> doShift ( myWorkspaces !! 8)
+--     , className =? "Enpass"    --> doShift ( myWorkspaces !! 8)
+--     , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+--     ]
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -282,7 +282,7 @@ myManageHook = composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = mempty
+--myEventHook = mempty
 
 ------------------------------------------------------------------------
 -- Status bars and logging
@@ -302,12 +302,13 @@ myEventHook = mempty
 -- myStartupHook = return ()
 myStartupHook = do
 	spawnOnce "nitrogen --restore &" -- Wallpaper
-	spawnOnce "compton &" -- Transparency
-	spawnOnce "dropbox start &" -- Dropbox
-	spawnOnce "signal-desktop &" -- Signal
-	spawnOnce "bitwarden &" -- Bitwarden
-	spawnOnce "Enpass &" -- Enpass
-	spawnOnce "firefox &" -- Firefox
+	spawnOnce "picom &" -- Transparency
+	spawnOnce "alacritty" -- Terminal
+--	spawnOnce "dropbox start &" -- Dropbox
+--	spawnOnce "signal-desktop &" -- Signal
+--	spawnOnce "bitwarden &" -- Bitwarden
+--	spawnOnce "Enpass &" -- Enpass
+--	spawnOnce "firefox &" -- Firefox
 --	spawnOnce "nm-applet &" -- Network Manager
 --	spawnOnce "volumeicon &" -- Volume
 --	spawnOnce "trayer --edge top --align right --margin 5 --width 5 --height 25 --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x292d3e --padding 5 --expand true --monitor 0 &"
@@ -328,26 +329,26 @@ main = do
         , clickJustFocuses   = myClickJustFocuses
         , borderWidth        = myBorderWidth
         , modMask            = myModMask
-        , workspaces         = myWorkspaces
+--        , workspaces         = myWorkspaces
         , normalBorderColor  = myNormalBorderColor
         , focusedBorderColor = myFocusedBorderColor
         , keys               = myKeys
         , mouseBindings      = myMouseBindings
         , layoutHook         = myLayout
-        , manageHook         = myManageHook
-        , handleEventHook    = myEventHook
-        , logHook            = dynamicLogWithPP xmobarPP
-                        { ppOutput = hPutStrLn xmproc
-                        , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
-                        , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)
-                        , ppTitle = return ""                                 -- Title of active window in xmobar
-                        , ppLayout = return ""                                -- Name of active layout
-                        , ppSep =  "|"                                        -- Separators in xmobar
-                        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
-                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                        }
+--        , manageHook         = myManageHook
+--        , handleEventHook    = myEventHook
+--        , logHook            = dynamicLogWithPP xmobarPP
+--                        { ppOutput = hPutStrLn xmproc
+--                        , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
+--                        , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
+--                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
+--                        , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)
+--                        , ppTitle = return ""                                 -- Title of active window in xmobar
+--                        , ppLayout = return ""                                -- Name of active layout
+--                        , ppSep =  "|"                                        -- Separators in xmobar
+--                        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
+--                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+--                        }
         , startupHook        = myStartupHook
     }
 
