@@ -31,7 +31,7 @@ orange = #d65d0e
 
 [bar/base]
 ;monitor = ${env:MONITOR:HDMI1}
-width = 100%
+width = 91%
 height = 40
 radius = 6.0
 fixed-center = true
@@ -93,7 +93,7 @@ format-underline = ${colors.foreground}
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
+format-prefix = "  "
 format-prefix-foreground = ${colors.purple}
 label = %percentage-cores:3%
 
@@ -108,7 +108,7 @@ label = %percentage_used%%
 type = internal/network
 interface = wlp3s0
 interval = 3.0
-format-connected-prefix = " "
+format-connected-prefix = "  "
 format-connected-prefix-foreground = ${colors.purple}
 format-connected =  <label-connected> (<ramp-signal>)
 format-disconnected = 
@@ -162,11 +162,11 @@ adapter = AC
 full-at = 98
 
 ; Icons
-icon-0 = ""
-icon-25 = ""
-icon-50 = ""
-icon-75 = ""
-icon-100 = ""
+icon-0 = " "
+icon-25 = " "
+icon-50 = " "
+icon-75 = " "
+icon-100 = " "
 icon-charged = " "
 
 ; Charging
