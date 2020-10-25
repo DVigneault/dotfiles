@@ -50,9 +50,10 @@ fi
 
 nitrogen --restore &
 picom &
-udiskie &
+udiskie -t &
 dunst &
 redshift-gtk &
 nm-applet &
+cbatticon &
 stalonetray &
 exec xmonad
