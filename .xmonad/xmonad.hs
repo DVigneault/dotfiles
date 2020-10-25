@@ -18,6 +18,7 @@ import qualified XMonad.Util.Brightness as Bright
 -- Hooks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 
 import Data.Monoid
 import System.Exit
@@ -78,7 +79,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_p     ), spawn "rofi -show drun")
 
     -- launch rofi ssh launcher
-    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show dmenu_run")
+    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show window")
 
     -- screenshot (full)
     -- relies on ImageMagick
@@ -323,7 +324,7 @@ main = do
 	xmproc <- spawnPipe "xmobar -x 0 /home/davis/.config/xmobar/xmobar.config"
 	pbproc0 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config pulse"
 --	pbproc1 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config desk"
-	xmonad $ docks def {
+	xmonad $ ewmh $ docks def {
           terminal           = myTerminal
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
