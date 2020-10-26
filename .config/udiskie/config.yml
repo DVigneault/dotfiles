@@ -1,0 +1,4 @@
+program_options:
+        tray: true
+        file_manager: ''
+        terminal: 'alacritty --working-directory'
