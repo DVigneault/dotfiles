@@ -55,5 +55,6 @@ dunst &
 redshift-gtk &
 nm-applet &
 cbatticon &
+blueman-applet &
 stalonetray &
 exec xmonad
