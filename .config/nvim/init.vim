@@ -1,4 +1,4 @@
-:syntax on                      " Turn on code syntax highlighting by default.
+:set syntax=on                      " Turn on code syntax highlighting by default.
 :set nu                         " Turn on line numbering.
 :set wrap linebreak             " Wrap lines longer than the window.
 :set showcmd		        " Show (partial) command in status line.
@@ -9,7 +9,6 @@
 :set autowrite		        " Automatically save before commands like :next and :make
 :set hidden		        " Hide buffers when they are abandoned
 :set backspace=indent,eol,start " Fix backspace problems on Unix
-:set 
 
 :set tabstop=2       " number of visual spaces per TAB
 :set softtabstop=2   " number of spaces in tab when editing
