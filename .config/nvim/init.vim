@@ -9,6 +9,14 @@
 :set autowrite		        " Automatically save before commands like :next and :make
 :set hidden		        " Hide buffers when they are abandoned
 :set backspace=indent,eol,start " Fix backspace problems on Unix
+:set 
+
+:set tabstop=2       " number of visual spaces per TAB
+:set softtabstop=2   " number of spaces in tab when editing
+:set shiftwidth=2    " number of spaces to use for autoindent
+:set expandtab       " tabs are space
+:set autoindent
+:set copyindent      " copy indent from the previous line
 
 " Plugin Manager:
 "   https://github.com/junegunn/vim-plug

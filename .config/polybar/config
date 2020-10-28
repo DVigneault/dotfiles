@@ -31,7 +31,7 @@ orange = #d65d0e
 
 [bar/base]
 ;monitor = ${env:MONITOR:HDMI1}
-width = 91%
+width = 87%
 height = 40
 radius = 6.0
 fixed-center = true
