@@ -1,42 +1,36 @@
 import XMonad
 
--- Layouts
-import XMonad.Layout.Spacing
-import XMonad.Layout.Gaps
-import XMonad.Layout.Grid
-import XMonad.Layout.Tabbed
-import XMonad.Layout
+import qualified System.Exit as Exit
+import qualified Data.Map        as M
 
--- Actions
-import XMonad.Actions.Volume
+import qualified XMonad.Actions.Volume as Volume
 
--- Utils
-import XMonad.Util.Run
-import XMonad.Util.SpawnOnce
-import qualified XMonad.Util.Brightness as Bright
+import qualified XMonad.Hooks.ManageDocks as Docks
+import qualified XMonad.Hooks.EwmhDesktops as EWMH
 
--- Hooks
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.EwmhDesktops
-
-import Data.Monoid
-import System.Exit
+import qualified XMonad.Layout.Spacing as Spacing
+import qualified XMonad.Layout.Gaps as Gaps
+import qualified XMonad.Layout.Grid as Grid
+import qualified XMonad.Layout.Tabbed as Tabbed
 
 import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
+
+import qualified XMonad.Util.Run as Run
+import qualified XMonad.Util.SpawnOnce as Spawn
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
 myTerminal :: String
-myTerminal      = "alacritty"
+myTerminal = "alacritty"
 
 -- Whether focus follows the mouse pointer.
+--
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
 
 -- Whether clicking on a window to focus also passes the click to the window
+--
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
@@ -150,7 +144,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_q     ), io (Exit.exitWith Exit.ExitSuccess))
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "notify-send \"Restarting XMonad...\" && killall -q polybar && xmonad --recompile; xmonad --restart")
@@ -162,13 +156,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- https://unix.stackexchange.com/a/400608
 
     -- Decrease volume: XF86AudioLowerVolume
-    , ((0, 0x1008ff11), lowerVolume 3 >> return())
+    , ((0, 0x1008ff11), Volume.lowerVolume 3 >> return())
 
     -- Increase volume: XF86AudioRaiseVolume
-    , ((0, 0x1008ff13), raiseVolume 3 >> return())
+    , ((0, 0x1008ff13), Volume.raiseVolume 3 >> return())
 
     -- Toggle mute: XF86AudioMute
-    , ((0, 0x1008ff12), toggleMute >> return())
+    , ((0, 0x1008ff12), Volume.toggleMute >> return())
 
     -- Decrease brightness: XF86MonBrightnessDown
     , ((0, 0x1008ff03), spawn "xbacklight -5")
@@ -235,7 +229,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 -- Colors for text and backgrounds of each tab when in "Tabbed" layout.
 
-myLayout = avoidStruts (spacing myGap $ gaps [(U, myGap), (L, myGap), (D, myGap), (R, myGap)] $ Grid ||| Tall 1 (3/100) (1/2) ||| simpleTabbed )
+myLayout = Docks.avoidStruts (Spacing.spacing myGap $ Gaps.gaps [(Docks.U, myGap), (Docks.L, myGap), (Docks.D, myGap), (Docks.R, myGap)] $ Grid.Grid ||| Tall 1 (3/100) (1/2) ||| Tabbed.simpleTabbed )
   where
      -- 
      myGap = 10
@@ -302,17 +296,17 @@ myLayout = avoidStruts (spacing myGap $ gaps [(U, myGap), (L, myGap), (D, myGap)
 -- By default, do nothing.
 -- myStartupHook = return ()
 myStartupHook = do
-	spawnOnce "nitrogen --restore &" -- Wallpaper
-	spawnOnce "picom &" -- Transparency
-	spawnOnce "alacritty" -- Terminal
---	spawnOnce "dropbox start &" -- Dropbox
---	spawnOnce "signal-desktop &" -- Signal
---	spawnOnce "bitwarden &" -- Bitwarden
---	spawnOnce "Enpass &" -- Enpass
---	spawnOnce "firefox &" -- Firefox
---	spawnOnce "nm-applet &" -- Network Manager
---	spawnOnce "volumeicon &" -- Volume
---	spawnOnce "trayer --edge top --align right --margin 5 --width 5 --height 25 --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x292d3e --padding 5 --expand true --monitor 0 &"
+--	Spawn.spawnOnce "nitrogen --restore &" -- Wallpaper
+--	Spawn.spawnOnce "picom &" -- Transparency
+	Spawn.spawnOnce "alacritty" -- Terminal
+--	Spawn.spawnOnce "dropbox start &" -- Dropbox
+--	Spawn.spawnOnce "signal-desktop &" -- Signal
+--	Spawn.spawnOnce "bitwarden &" -- Bitwarden
+--	Spawn.spawnOnce "Enpass &" -- Enpass
+--	Spawn.spawnOnce "firefox &" -- Firefox
+--	Spawn.spawnOnce "nm-applet &" -- Network Manager
+--	Spawn.spawnOnce "volumeicon &" -- Volume
+--	Spawn.spawnOnce "trayer --edge top --align right --margin 5 --width 5 --height 25 --SetDockType true --SetPartialStrut true --transparent true --alpha 0 --tint 0x292d3e --padding 5 --expand true --monitor 0 &"
 --
 --------------------------------------------------------------------------
 ---- Now run xmonad with all the defaults we set up.
@@ -321,10 +315,10 @@ myStartupHook = do
 ----
 ---- main = xmonad defaults
 main = do
-	xmproc <- spawnPipe "xmobar -x 0 /home/davis/.config/xmobar/xmobar.config"
-	pbproc0 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config pulse"
---	pbproc1 <- spawnPipe "polybar -c=/home/davis/.config/polybar/config desk"
-	xmonad $ ewmh $ docks def {
+	xmproc <- Run.spawnPipe "xmobar -x 0 /home/davis/.config/xmobar/xmobar.config"
+	pbproc0 <- Run.spawnPipe "polybar -c=/home/davis/.config/polybar/config pulse"
+--	pbproc1 <- Run.spawnPipe "polybar -c=/home/davis/.config/polybar/config desk"
+	xmonad $ EWMH.ewmh $ Docks.docks def {
           terminal           = myTerminal
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
@@ -338,6 +332,7 @@ main = do
         , layoutHook         = myLayout
 --        , manageHook         = myManageHook
 --        , handleEventHook    = myEventHook
+        , logHook = EWMH.ewmhDesktopsLogHook
 --        , logHook            = dynamicLogWithPP xmobarPP
 --                        { ppOutput = hPutStrLn xmproc
 --                        , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
