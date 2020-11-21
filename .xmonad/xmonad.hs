@@ -70,10 +70,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch rofi application launcher
-    , ((modm,               xK_p     ), spawn "rofi -show drun")
+    , ((modm,               xK_p     ), spawn "rofi -modi \"drun,window,ssh\" -show drun")
 
     -- launch rofi ssh launcher
-    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -show window")
+    , ((modm .|. shiftMask, xK_p     ), spawn "rofi -modi \"drun,window,ssh\" -show window")
 
     -- screenshot (full)
     -- relies on ImageMagick
