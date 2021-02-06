@@ -2,3 +2,4 @@
 
 [Default Applications]
 application/pdf=okularApplication_pdf.desktop;
+x-scheme-handler/msteams=teams.desktop

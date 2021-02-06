@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 path+=('/opt/enpass/')
+path+=('/home/davis/Developer/github/dv-sissr/bin/')
+path+=('/home/davis/Developer/github/dv-cli/bin/')
 export PATH
 
 # Path to your oh-my-zsh installation.
@@ -100,3 +102,11 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias git-dotfiles="/usr/bin/env git --git-dir ${HOME}/Developer/github/dotfiles.git --work-tree=${HOME}"
 alias vim=nvim
+
+# CMake Environment Variables
+export CMAKE_GENERATOR=Ninja
+export CXX=clang++
+
+export ITK_DIR=${HOME}/Developer/thirdparty/itk/bin
+export VTK_DIR=${HOME}/Developer/thirdparty/vtk/bin
+export CGAL_DIR=${HOME}/Developer/thirdparty/cgal/bin

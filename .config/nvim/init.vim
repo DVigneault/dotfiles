@@ -16,6 +16,7 @@ set shiftwidth=2   " number of spaces to use for autoindent
 set expandtab      " tabs are space
 set autoindent
 set copyindent     " copy indent from the previous line
+set scrolloff=5    " put cursor near the center of the screen
 
 " Plugin Manager:
 "   https://github.com/junegunn/vim-plug

@@ -52,9 +52,10 @@ nitrogen --restore &
 picom &
 udiskie -t &
 dunst &
-redshift-gtk &
+#redshift-gtk &
 nm-applet &
 cbatticon &
-blueman-applet &
+#blueman-applet &
 stalonetray &
+dropbox &
 exec xmonad
